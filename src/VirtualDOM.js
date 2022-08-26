@@ -23,6 +23,15 @@
 */
 
 export const Counter = (function() {
+    function createTextElement(text) {
+        return {
+            type: "TEXT",
+            props: {
+              nodeValue: text,
+              children: [],
+            },
+        }
+    }
     return {
         /*
         Documentation Worth Reading:
@@ -32,14 +41,20 @@ export const Counter = (function() {
 
         Output: object
 
-        Current: let's start simple. The only children the createEleemtn should take is 
+        Current: let's start simple. The only children the createElement should take is 
             a string of the text inside the element.
         */
-        createElement: function(type, props, children) {
+        createElement: function(type, props, ...children) {
             return {
-                "type": type,
-                "props": props,
-                "children": children
+                type,
+                props: {
+                    ...props,
+                    children: children.map(child => 
+                        typeof child === "object"
+                            ? child
+                            : createTextElement(child)
+                    ),
+                },
             }
         }
     }
