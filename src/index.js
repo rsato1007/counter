@@ -1,6 +1,6 @@
-import {Counter} from "./VirtualDOM";
-import {CounterDOM} from "./RenderDOM";
+// import {Counter} from "./VirtualDOM.js";
+// import {CounterDOM} from "./RenderDOM.js";
 
-console.log(Counter.createElement ('div', null, 'Hello World'));
+import { TEST } from "../testing.js";
 
-CounterDOM.render(Counter.createElement('div', null, 'Hello World'), document.getElementById("app"));
+TEST.callToAction();
