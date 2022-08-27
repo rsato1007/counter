@@ -1,8 +1,27 @@
 /*
     Documentation:
+        - Commit Phase: https://blog.bitsrc.io/how-react-renders-a-component-on-screen-da97c56caf71
+*/
+const commitRoot = () => {
+
+}
+
+const render = (element, container) => {
+    wipRoot = {
+      dom: container,
+      props: {
+        children: [element],
+      },
+    }
+    nextUnitOfWork = wipRoot;
+}
+
+/*
+    Documentation:
         - Fiber: https://programmingwithmosh.com/javascript/react-fiber/
 */
 let nextUnitOfWork = null;
+let wipRoot = null;
 
 /*
     Documentation:
@@ -14,6 +33,13 @@ const workLoop = (deadline) => {
         nextUnitOfWork = performUnitOfWork(nextUnitOfWork);
         shouldYield = deadline.timeRemaining() < 1;
     }
+
+    // Once there is no more units to work, we can commit the whole
+    // fiber tree to the dom.
+    if(!nextUnitOfWork && wipRoot) {
+        commitRoot();
+    }
+
     requestIdleCallback(workLoop);
 }
         
@@ -56,10 +82,6 @@ const performUnitOfWork = (fiber) => {
     */
     if (!fiber.dom) {
         fiber.dom = createDom(fiber);
-    }
-
-    if (fiber.parent) {
-        fiber.parent.dom.appendChild(fiber.dom);
     }
 
     // Next, we create a fiber for each element.
