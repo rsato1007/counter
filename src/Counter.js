@@ -1,4 +1,4 @@
-function createTextElement(text) {
+const createTextElement = (text) => {
     return {
         type: "TEXT",
         props: {
