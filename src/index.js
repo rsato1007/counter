@@ -1,6 +1,3 @@
-import {Counter} from "./VirtualDOM";
-import {CounterDOM} from "./RenderDOM";
+const CounterDOM = require('./CounterDOM.js');
 
-console.log(Counter.createElement ('div', null, 'Hello World'));
-
-CounterDOM.render(Counter.createElement('div', null, 'Hello World'), document.getElementById("app"));
+CounterDOM.test();
