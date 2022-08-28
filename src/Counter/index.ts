@@ -1,3 +1,4 @@
-module.exports = {
-    
+import {createElement} from "./createElement";
+export const Counter = {
+    createElement
 }
