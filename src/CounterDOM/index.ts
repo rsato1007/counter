@@ -1,4 +1,4 @@
-// import { render } from "./render";
-// export const  CounterDOM = {
-//     render,
-// }
+import { render } from "./render";
+export const  CounterDOM = {
+    render,
+}

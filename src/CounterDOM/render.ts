@@ -1,47 +1,38 @@
+/* render.ts */
+
+/* IMPORT TYPES/INTERFACES */
+import { CounterElement, CounterDOMElement, CounterDOMTextElement } from "../Types/types";
+
 /*
-    Purpose: renders the virtual DOM to the actual DOM.
+    Interface: takes a CounterElement and element on the DOM (usually a parent div with an id "app"), then transforms that
+        CounterElement into a DOM element alongside it's child elements. Once transformed, it adds those elements to the DOM.
 */
+export function render(element: CounterElement, container: CounterDOMElement): void {
+    // We start by creating a DOM element using the Counter Element's type.
+    const dom: CounterDOMElement | CounterDOMTextElement = element.type === "TEXT" ? document.createTextNode("") : document.createElement(element.type);
 
-// // Extension of the HTMLElement to allow us to dyanmically add Counter Element properties to our
-// // actual DOM object.
-// // Revist to see if we can make this interface more flexible.
-// interface VDOMElement extends HTMLElement {
-//     props?: any,
-// }
+    // Next we add props (excluding children) if they are there.
+    if (element.elementProps != null) {
+        const isProperty = (key: any) => key !== "children";
+        const props = element.elementProps;
+        Object.keys(props)
+            .filter(isProperty)
+            .forEach(function(name) {
+                if (dom instanceof HTMLElement) {
+                    dom[name] = props[name];
+                } else {
+                    dom[name] = props[name];
+                }
+            });
+    }
 
-// import { CounterElement } from "../Counter/createElement";
+    // We recursively transform child elements (grandchildren, etc) into DOM elements.
+    if (element && element.elementProps && element.elementProps.children && dom instanceof HTMLElement) {
+        element.elementProps.children.forEach(function(child: CounterElement) {
+            render(child, dom);
+        });
+    }
 
-//  export const render = (counterElement: CounterElement, containerNode: HTMLElement): void => {
-//     // What does render do in React exactly? We pass in a counterElement that's 
-//     // rendered as actual DOM element(s).
-
-//     // Start by creating the virtual DOM
-//     const virtualDOM: VDOMElement | Text = counterElement.type == "TEXT_ELEMENT"
-//         ? document.createTextNode("")
-//         : document.createElement(counterElement.type)
-
-//     // A couple things happening here:
-//     // (1) We add the props to our DOM element.
-//     // (2) We check to ensure prop types exist
-//     if (counterElement.props != null && virtualDOM instanceof HTMLElement) {
-//         const isProperty = (key: any) => key !== "children";
-//         const props = counterElement.props;
-//         Object.keys(props)
-//         .filter(isProperty)
-//         .forEach(name => {
-//             virtualDOM.props[name] = props.name;
-//         })
-//     }
-
-//     // We make this a recursive function that transform child counter elements
-//     // to DOM elements.
-//     // NOTE: the conditional is messy, but in order to satisfy TypeScript, this is the
-//     // current solution.
-//     if (counterElement && counterElement.props && counterElement.props.children && virtualDOM instanceof HTMLElement) {
-//         counterElement.props.children.forEach(child => {
-//             render(child, virtualDOM);
-//         });
-//     }
-
-//     containerNode.appendChild(virtualDOM);
-// }
+    console.log("Last, but not least. We're going to append this sucker!");
+    container.append(dom);
+}

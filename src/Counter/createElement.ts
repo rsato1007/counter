@@ -1,13 +1,8 @@
 /*
     Counter emulation of React.createElement which allows JSX compatiibilty.
 */
-// Let's revist createElement again
-// Here we attempt to determine what a Counter Element looks like.
 
-interface CounterElement {
-    type: string,
-    elementProps: any
-}
+import {CounterElement} from "../Types/types";
 
 // I'll need to adjust the props later in case we want it to accept more
 // data types.
@@ -26,11 +21,17 @@ export function createElement (elementType: string, props: propsInput | null, ..
         }
     }
 
-    // If children exist, we add them as well.
+    // If children props exist, we add them as well.
     if (arguments.length > 2) {
         const childrenArray: any[] = [];
         for(let i = 2; arguments.length > i; i++) {
-            childrenArray.push(arguments[i]);
+            // We also need to check if the child is text an actual Counter Element. This ensures
+            // we don't try to render text as a DOM element.
+            if (typeof arguments[i] === "object") {
+                childrenArray.push(arguments[i]);
+            } else {
+                childrenArray.push({type: "TEXT", elementProps: {nodeValue: arguments[i]}});
+            }
         }
         elementProps.children = childrenArray;
     }
