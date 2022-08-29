@@ -1,5 +1,8 @@
 /*
-    Current Task: revamp render.
+    Current Task: Now for Reconilation, fiber trees, etc.
+    --In terms of the next step, this might be a good place to start:
+    https://www.velotio.com/engineering-blog/react-fiber-algorithm 
+    -Let's review what the reconciler is.
 
     Additional Notes:
     - JSX: here's how the following is interpretted by JSX:

@@ -18,6 +18,7 @@ export function render(element: CounterElement, container: CounterDOMElement): v
         Object.keys(props)
             .filter(isProperty)
             .forEach(function(name) {
+                // Due to the quirky nature of TypeScript Typing, we'll need to reajust this as well.
                 if (dom instanceof HTMLElement) {
                     dom[name] = props[name];
                 } else {
@@ -27,12 +28,16 @@ export function render(element: CounterElement, container: CounterDOMElement): v
     }
 
     // We recursively transform child elements (grandchildren, etc) into DOM elements.
-    if (element && element.elementProps && element.elementProps.children && dom instanceof HTMLElement) {
-        element.elementProps.children.forEach(function(child: CounterElement) {
+    if (element && 
+        element.elementProps && 
+        element.elementProps.children && 
+        dom instanceof HTMLElement && 
+        Array.isArray(element.elementProps.children))
+    {
+        element.elementProps.children.forEach(function(child): void {
             render(child, dom);
         });
     }
 
-    console.log("Last, but not least. We're going to append this sucker!");
     container.append(dom);
 }
