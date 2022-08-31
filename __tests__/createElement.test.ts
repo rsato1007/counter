@@ -44,7 +44,28 @@ describe("all tests for Counter.createElement", () => {
         // Act
         const result = Counter.createElement('div', null, Counter.createElement("h1", null));
 
+        // Assert
+        expect(result).toStrictEqual(counterElement);
+    });
+
+    it('Should be a text node', () => {
         // Arrange
+        const counterElement = {
+            type: "h1",
+            elementProps: {
+                children: [{
+                    type: "TEXT",
+                    elementProps: {
+                        nodeValue: "Hello World"
+                    }
+                }]
+            }
+        }
+
+        // Act
+        const result = Counter.createElement("h1", null, "Hello World");
+
+        // Assert
         expect(result).toStrictEqual(counterElement);
     });
 });
