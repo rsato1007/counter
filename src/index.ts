@@ -21,6 +21,8 @@
 import { Counter } from "./Counter";
 import { CounterDOM } from "./CounterDOM";
 
-const elCounter = Counter.createElement("div", null, Counter.createElement("p", {name: "Robert Sato"}, "Hello World"));
+console.log(Counter.createElement("div", null));
 
-CounterDOM.render(elCounter, document.getElementById('app')!);
+// const elCounter = Counter.createElement("div", null, Counter.createElement("p", {name: "Robert Sato"}, "Hello World"));
+
+// CounterDOM.render(elCounter, document.getElementById('app')!);
